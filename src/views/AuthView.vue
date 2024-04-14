@@ -1,6 +1,6 @@
 <template>
   <div class="auth">
-    <h1>This is an Auth page</h1>
+    <h1>LeadHit</h1>
     <div v-if="isError"
          class="error">
       id сайта должен содержать 24 символа
@@ -32,9 +32,11 @@ export default {
             "Leadhit-Site-Id": this.id,
           }
         });
-        let authKey = await response.json();
-        localStorage.setItem('leadhit-site-id', authKey.id);
-        await this.$router.push({path: `/`});
+        let authKeyResponse = await response.json();
+        if (authKeyResponse.message === 'ok') {
+          localStorage.setItem('leadhit-site-id', this.id);
+          await this.$router.push({path: `/`});
+        }
       } catch (e) {
         console.dir(e);
       }
